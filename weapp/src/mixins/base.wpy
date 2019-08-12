@@ -1,0 +1,129 @@
+<script>
+  import wepy from 'wepy';
+  import Tips from '../utils/Tips';
+  import store from '../store/utils';
+
+  export default class base extends wepy.mixin {
+    data = {
+      isIphoneX: false,
+      homePageNotLoaded: false
+    };
+    imageRouter (type, item) {
+      switch (type) {
+          case 'product':
+              return 'GOODS'
+          case 'strategy':
+              return 'CATEGORY'
+          case 'act':
+              return 'ACT'
+          case 'url':
+              return 'URL'
+          default:
+              if (item && item.act_id) {
+                switch (item.act_id) {
+                  case 1:
+                    return 'GROUP_INDEX'
+                  case 2:
+                    return 'BARGAIN_INDEX'
+                  case 3:
+                    return 'GIFT_INDEX'
+                  case 4:
+                    return 'NEW_USER_INDEX'
+                }
+                return 'ACT'
+              }
+              if (item && item.h5_url) {
+                return 'URL'
+              }
+              return 'NONE'
+      }
+    }
+    awaken() {
+        console.log('handleAwake home')
+        store.refresh('config')
+    };
+    computeCart(eventData) {
+      const { total } = eventData
+      this.setCartTabBadge(total)
+    };
+    /**
+    * 渲染标题栏
+    */
+    renderNavigationBar(param) {
+      if (param.navigation == null) {
+        return;
+      }
+      const { titleText, backgroundColor, textStyle } = param.navigation;
+      if (titleText) {
+        wepy.setNavigationBarTitle({
+          title: titleText
+        });
+      }
+      if (backgroundColor && textStyle) {
+        wepy.setNavigationBarColor({
+          backgroundColor: backgroundColor,
+          frontColor: textStyle
+        });
+      }
+    };
+    async onShow() {
+      // const pageOnShowReport = await wepy.getStorageSync('pageOnShowReport')
+      // if (pageOnShowReport && pageOnShowReport === 1) {
+      //   report.onShowLog()
+      // } else if (!pageOnShowReport && pageOnShowReport !== 0) {
+      //   console.log('not found pageOnShowReport config, check after 2 seconds')
+      //   setTimeout(async () => {
+      //     const pageOnShowReport = await wepy.getStorageSync('pageOnShowReport')
+      //     if (pageOnShowReport && pageOnShowReport === 1) {
+      //       report.onShowLog()
+      //     }
+      //   }, 2000);
+      // }
+    }
+    onLoad() {
+      console.warn('base onLoad')
+      if (wepy.$instance.$pages[wepy.$instance.globalData.homePage]) {
+        this.homePageNotLoaded = !wepy.$instance.$pages[wepy.$instance.globalData.homePage].$data
+      }
+      this.isIphoneX = wepy.$instance.globalData.isIphoneX
+      this.$apply();
+      // 注入页面参数
+      const params = wepy.$instance.globalData.pageParams;
+      if (params == null) {
+        return;
+      }
+      const path = this.$root.$wxpage.route;
+      const param = params[path];
+      if (param != null) {
+        // console.info(`[minxin] page base init path=${path}, param=`, param);
+        Object.assign(this, param);
+        this.$apply();
+      }
+    }
+    // 最大值
+    getMax(arr) {
+      if (!arr || arr.length === 0) {
+        return 0
+      }
+      var max = arr[0];
+      var len = arr.length
+      for (var i = 1; i < len; i++) {
+        if (arr[i] > max) {
+          max = arr[i];
+        }
+      }
+      return max;
+    }
+    loaded() {
+      console.warn('base loaded')
+      this.init = true;
+      this.$apply();
+      Tips.loaded();
+    }
+    methods = {
+      nopen() {
+        Tips.alert('尚未开放');
+      }
+    };
+  }
+</script>

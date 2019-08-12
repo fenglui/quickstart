@@ -1,0 +1,97 @@
+<template>
+  <Loading :init.sync="init"/>
+  <scroll-view wx:if="{{ init }}" class="container" scroll-y scroll-into-view="{{ toView }}" bindscrolltoupper="scrolltoupper"  bindscrolltolower="scrolltolower" lower-threshold='100' style="{{ scrollViewStyle }}">
+  </scroll-view>
+</template>
+<script>
+import wepy from 'wepy';
+import base from '../../mixins/base';
+import Loading from '../../components/common/loading';
+import router from '../../mixins/router';
+import Event from '../../utils/Event';
+// import Consts from '../../api/consts';
+
+export default class HomeIndex extends wepy.page {
+  data = {
+    init: false,
+    toView: '',
+    scrollViewStyle: ''
+  };
+  // watch = {
+  // };
+  // onSourceLog(eventData) {
+  // }
+  // onActionLog(eventData) {
+  // }
+  async onShow() {
+    wepy.setNavigationBarTitle({
+      title: wepy.$instance.globalData.shopName || '首页'
+    });
+  }
+  // async onUnload() {
+  // }
+  async loadData() {
+    console.warn('[home][index][loadData]')
+    this.loaded()
+    this.$apply()
+  }
+  async onPullDownRefresh() {
+    Event.emit(this.pullDownRefreshEventName)
+    await this.loadData()
+    wx.stopPullDownRefresh()
+  }
+  async onLoad(params) {
+    this.loadData()
+    Event.listen(Event.HOME_INDEX_RELOAD, this.loadData.bind(this), this)
+  }
+  methods = {
+    /**
+   * 到达顶部
+   */
+    async scrolltoupper (e) {
+      this.scrollViewStyle = ''
+      this.$apply()
+    },
+    /**
+     * 到达底部
+     */
+    async scrolltolower (e) {
+      Event.emit(this.scrolltolowerEventName)
+      // console.log('home index 到达底部')
+    },
+    stopTouchMove: function() {
+      return false;
+    }
+  };
+  components = {
+    Loading: Loading
+  };
+  mixins = [base, router];
+  config = {
+    navigationBarTitleText: '',
+    enablePullDownRefresh: true,
+    disableScroll: false
+  };
+  /**
+   * 页面分享设置
+   */
+  onShareAppMessage () {
+    const { shareTitle, name, homePageShareUrl } = this.shop;
+    return {
+      title: shareTitle || name,
+      imageUrl: homePageShareUrl || this.homeBannerUrls.map(value => value.bannerUrl)[this.swiperIndex],
+      path: wepy.$instance.globalData.homePage
+    };
+  }
+}
+</script>
+<style lang="scss">
+  @import "../../styles/variable";
+  page{
+    background: #fff !important;
+  } 
+  // v4
+  .container{
+    padding-bottom: 24rpx;
+  }
+</style>

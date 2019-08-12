@@ -1,0 +1,46 @@
+//******字体颜色变量******/
+$color-major:#FA7171;
+$color-primary: #e34a4e;
+$color-primary-darken: darken($color-primary, 5%);
+$color-muted: #A3A3A3;
+$color-weak: #626E7A;
+$color-normal: #666666;
+$color-danger: #e33;
+// $color-warn: #f85;
+$color-txt: #333333;
+$color-gray: #666666;
+$color-light-gray: #999999;
+$color-high-light:#E34A4E;
+//******特定样式******/
+$color-score:#9D54CE; // 积分
+$color-price: #D53F60; // 主价格
+$color-market-price: #AAAAAA; // 市场价
+$color-goods-name: #000; // 商品名称
+$color-discount-price: #e9373b; // 折扣价
+
+//******字体大小变量******/
+$text-xxxxxl: 40rpx;
+$text-xxxxl: 38rpx;
+$text-xxxl: 36rpx;
+$text-xxl: 34rpx;
+$text-xl: 32rpx;
+$text-lg: 30rpx;
+$text-nm: 28rpx;
+$text-sm: 26rpx;
+$text-xs: 24rpx;
+$text-xxs: 22rpx;
+$text-xxxs: 20rpx;
+$text-xxxxs: 18rpx;
+$text-xxxxxs: 16rpx;
+$text-form: 17px;
+//******边框样式******/
+$color-border: #EDEDED;
+$color-line: #EEEEEE;
+$border: 1px solid $color-border;
+$border-line: 1px solid $color-line;
+$border-dot: 1px dotted #EFF0F2;
+//******背景样式******/
+// $color-bg-body: #F5F5F5;
+// $color-bg-body: #FFFFFF; // #F9FAFD;
+$color-bg-body: #FAFAFA;
+$color-bg-item: #FAFAFA;

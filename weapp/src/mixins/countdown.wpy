@@ -1,0 +1,97 @@
+<script>
+  import wepy from 'wepy';
+  export default class countdown extends wepy.mixin {
+    data = {
+      content: {},
+      contentArr: [],
+      timer: []
+    };
+    // onLoad() {
+    //   // this.clearTime();
+    // }
+    onUnload() {
+      this.clearTime();
+    }
+    // onHide() {
+    //   // this.clearTime();
+    // }
+    clear() {
+      this.clearTime()
+    }
+    /***
+     * 倒计时计算
+     * moveDayValueToHour 是否将天的值加到小时上
+     */
+    countdowm (timestamp, status, moveDayValueToHour = false) {
+      // console.warn('countdowm timestamp is ' + timestamp)
+      this.contentArr.push({
+        timestamp: timestamp
+      })
+      // if (this.timer.length > 0) {
+      //   return
+      // }
+      const index = this.contentArr.length - 1
+      var timerItem = setInterval(() => {
+        const el = this.contentArr[index];
+          var timestamp = el.timestamp
+          // console.warn('timestamp is ' + timestamp)
+          const time = // status === 'groupTime' ? new Date(timestamp) - new Date() + 1000 * 60 * 60 * 24 :
+          new Date(timestamp) - new Date();
+          if (time > 0) {
+            let day = status === 'groupTime' ? '' : Math.floor(time / 86400000);
+            let hour = status === 'groupTime' ? Math.floor(time / 3600000) : Math.floor((time / 3600000) % 24);
+            let min = Math.floor((time / 60000) % 60);
+            let sec = Math.floor((time / 1000) % 60);
+            if (moveDayValueToHour && day > 0) {
+              hour += day * 24
+              // console.warn('hour is ' + hour)
+              day = 0
+            }
+            day = day < 0 ? '0' : day;
+            hour = hour < 10 ? '0' + hour : hour;
+            // console.warn('hour is ' + hour)
+            min = min < 10 ? '0' + min : min;
+            sec = sec < 10 ? '0' + sec : sec;
+            if (index === 0) {
+              this.content = {
+                day: day,
+                hour: hour,
+                min: min,
+                sec: sec
+              };
+            }
+            this.contentArr[index] = {
+              timestamp: timestamp,
+              day: day,
+              hour: hour,
+              min: min,
+              sec: sec
+            }
+            this.$apply();
+          }
+      }, 1000);
+      this.timer.push(timerItem)
+      console.info(`[interval] create interval id=${timerItem}`);
+    }
+    /***
+     * 时间清除方法
+     */
+    clearTime() {
+      if (this.timer.length > 0) {
+        for (let index = 0; index < this.timer.length; index++) {
+          const el = this.timer[index];
+          console.info(`[interval] destory interval id=${el}`);
+          clearInterval(el);
+        }
+        this.timer = [];
+      }
+      this.content = {
+        day: '00',
+        hour: '00',
+        min: '00',
+        sec: '00'
+      };
+      this.contentArr = []
+    }
+  }
+</script>

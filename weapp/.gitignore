@@ -1,0 +1,11 @@
+node_modules/*
+dist/*
+dist*/*
+.idea/*
+/.editorconfig
+/.eslintignore
+/.npmignore
+/.wepycache
+/.wepyignore
+/package-lock.json
+/src/ext.json

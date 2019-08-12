@@ -1,0 +1,104 @@
+<template>
+  <view class="action-bar-placeholder"></view>
+  <view class="action-bar row-center fixed-bottom" wx:if="{{noCancel == 0}}">
+    <view class="action secondary-action row-center" @tap="back">
+      <text>{{cancelText}}</text>
+    </view>
+    <view class="action {{okType}}-action row-center" @tap="tap">
+      <text>{{okText}}</text>
+    </view>
+  </view>
+  <view class="action-bar row-center fixed-bottom" wx:else>
+    <view wx:if="{{ otherText && otherText !== '' }}" class="action secondary-action row-center" @tap="otherTap">
+      <text>{{otherText}}</text>
+    </view>
+    <view wx:if="{{ submitType == 'tap' }}" class="action {{okType}}-action row-center" @tap="tap">
+      <text>{{okText}}</text>
+    </view>
+    <button wx:else class="action {{okType}}-action row-center" type="plain" style="height:98rpx;border-radius:0;color:#FFF;padding:0" form-type="submit">{{okText}}</button>
+  </view>
+
+</template>
+
+<script>
+  import wepy from 'wepy'
+  export default class ActionBar extends wepy.component {
+    props = {
+      okType: {
+        default: 'primary'
+      },
+      okText: {
+        default: '确定'
+      },
+      otherText: {
+        default: ''
+      },
+      cancelText: {
+        default: '取消'
+      },
+      noCancel: {
+        default: 0
+      },
+      submitType: {
+        default: 'tap'
+      }
+    };
+    methods = {
+      tap() {
+        this.$emit('tap');
+      },
+      otherTap() {
+        this.$emit('otherTap');
+      },
+      back() {
+        wepy.navigateBack();
+      }
+    }
+  }
+</script>
+
+<style lang="scss">
+  @import "../../styles/variable";
+  .action-bar-placeholder{
+    height: 120rpx;
+    width: 100%;
+    background-color: $color-bg-body;
+  }
+
+  .action-bar{
+    width: 100%;
+    height: 100rpx;
+    z-index: 100;
+
+    .action{
+      height: 100%;
+      width: 100%;
+      text{font-size: $text-xl;}
+    }
+
+    .primary-action{
+      background-color: $color-high-light;
+      text{color: #FFF;}
+    }
+    .danger-action{
+      background-color: $color-danger;
+      text{color: #FFF;}
+    }
+    .secondary-action{
+      background-color: #FFF;
+      border-top: $border;
+    }
+    .only-action{
+      background-color: #FAFAFA;
+      // border-top: $border;
+      box-shadow: inset 0 1px 0 0 rgba(0,0,0,0.25);
+      text{
+        font-family: PingFangSC-Semibold;
+        font-size: 40rpx;
+        color: $color-txt;
+        line-height: 40rpx;
+        font-weight: bold;
+      }
+    }
+  }
+</style>

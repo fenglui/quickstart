@@ -1,0 +1,56 @@
+<template>
+  <view class="weui-footer {{buttom == 'true' ? 'weui-footer_fixed-bottom' : ''}} ">
+    <view class="weui-footer__links">
+      <view class="weui-footer__link">由聚塔在线提供技术支持 {{version}}</view>
+    </view>
+    <!-- 
+      <view class="weui-footer__text">Copyright © 2018 juta mall {{version}}</view>
+    -->
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import Consts from '../../api/consts'
+  export default class Copyright extends wepy.component {
+    data = {
+      version: ''
+    };
+    onLoad () {
+      if (this.showVersion) {
+        this.version = Consts.version;
+        this.$apply()
+      }
+    }
+    methods = {
+    };
+    props = {
+      // 是否显示版本
+      showVersion: {
+        type: Boolean,
+        default: true
+      },
+      buttom: {
+        default: 'false'
+      }
+    }
+  }
+</script>
+
+<style lang="scss">
+  // @import "../../styles/variable";
+  .weui-footer{
+    position: absolute;
+    bottom: 24rpx;
+    left: 0;
+    width:100%;
+    text-align: center;
+    padding: 15rpx 0;
+    // background-color: $color-bg-body;
+    .weui-footer__link{
+      // color: gray;
+      color: lighten(gray, 30%);
+      font-size:24rpx;
+    }
+  }
+</style>

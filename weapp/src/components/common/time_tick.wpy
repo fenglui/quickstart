@@ -1,0 +1,78 @@
+<template>
+  <text style="color:#FFF;background-color:#333333;font-size:24rpx;width:126rpx;margin:0 10rpx;padding:0 8rpx">{{ content.hour }}:{{ content.min }}:{{ content.sec }}</text>
+</template>
+<script>
+  import wepy from 'wepy'
+  import countdown from '../../mixins/countdown';
+  export default class TimeTick extends wepy.component {
+    props ={
+      seconds: {
+        default: 0
+      }
+    }
+    data = {
+      version: null,
+      enabled: false,
+      autoTime: null,
+      threeDaysInSeconds: 3 * 24 * 60 * 60,
+      totalDays: 0
+    };
+    watch = {
+      async autoTime(autoTime) {
+        // 大于3天时
+        let moveDayValueToHour = false
+        if (autoTime) {
+          this.countdowm(autoTime.replace(/-/g, '/'), 'autoTime', moveDayValueToHour)
+        }
+      },
+      async seconds(newVal, oldVal) {
+        if ((oldVal === 0 || oldVal === null) && newVal > 0) {
+          const now = new Date();
+          const seconds = newVal;
+          const closedAt = new Date(now.setSeconds(now.getSeconds() + seconds))
+          this.autoTime = this.formatTime(closedAt)
+          this.enabled = newVal > 0 && newVal < this.threeDaysInSeconds
+          this.$apply()
+        } else if (newVal === 0) {
+          this.clearTime()
+          this.content = {
+            day: '00',
+            hour: '00',
+            min: '00',
+            sec: '00'
+          };
+          this.$apply()
+        }
+      }
+    };
+    onLoad () {
+      this.clearTime()
+    }
+    onUnload () {
+      this.clearTime()
+    }
+    onHide () {
+      this.clearTime()
+    }
+    formatTime(date) {
+      var year = date.getFullYear()
+      var month = date.getMonth() + 1
+      var day = date.getDate()
+      var hour = date.getHours()
+      var minute = date.getMinutes()
+      var second = date.getSeconds()
+      return [year, month, day].map((n) => {
+        return n.toString().length == 1 ? '0' + n : n;
+      }).join('-') + ' ' + [hour, minute, second].map((n) => {
+        return n.toString().length == 1 ? '0' + n : n;
+      }).join(':')
+    }
+    methods = {
+    };
+    mixins = [countdown];
+  }
+</script>
+
+<style lang="scss" scoped>
+  @import "../../styles/variable";
+</style>

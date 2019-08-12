@@ -1,0 +1,81 @@
+<template>
+  <text style="color:#777;font-size:24rpx;">剩余{{ content.hour }}:{{ content.min }}:{{ content.sec }}</text>
+</template>
+<script>
+  import wepy from 'wepy'
+  import countdown from '../../mixins/countdown';
+  export default class TimeTickText extends wepy.component {
+    props ={
+      seconds: {
+        default: 0
+      }
+    }
+    data = {
+      autoTime: null
+    };
+    watch = {
+      async autoTime(autoTime) {
+        let moveDayValueToHour = false
+        if (autoTime) {
+          this.countdowm(autoTime.replace(/-/g, '/'), 'autoTime', moveDayValueToHour)
+        }
+      },
+      async seconds(newVal, oldVal) {
+        if (newVal > 0) {
+          const now = new Date();
+          const seconds = newVal;
+          const closedAt = new Date(now.setSeconds(now.getSeconds() + seconds))
+          this.autoTime = this.formatTime(closedAt)
+          this.$apply()
+        } else if (newVal === 0) {
+          this.clearTime()
+          this.content = {
+            day: '00',
+            hour: '00',
+            min: '00',
+            sec: '00'
+          };
+          this.$apply()
+        }
+      }
+    };
+    checkSeconds() {
+      console.log('checkSeconds seconds', this.seconds)
+    }
+    onLoad () {
+      // this.clearTime()
+      console.log('onLoad seconds', this.seconds)
+      // this.seconds = 789560
+      // this.$apply()
+      // setInterval(() => {
+      //   this.checkSeconds()
+      // }, 200);
+    }
+    onUnload () {
+      this.clearTime()
+    }
+    onHide () {
+      this.clearTime()
+    }
+    formatTime(date) {
+      var year = date.getFullYear()
+      var month = date.getMonth() + 1
+      var day = date.getDate()
+      var hour = date.getHours()
+      var minute = date.getMinutes()
+      var second = date.getSeconds()
+      return [year, month, day].map((n) => {
+        return n.toString().length == 1 ? '0' + n : n;
+      }).join('-') + ' ' + [hour, minute, second].map((n) => {
+        return n.toString().length == 1 ? '0' + n : n;
+      }).join(':')
+    }
+    // methods = {
+    // };
+    mixins = [countdown];
+  }
+</script>
+
+<style lang="scss">
+  @import "../../styles/variable";
+</style>

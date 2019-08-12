@@ -1,0 +1,192 @@
+<style lang="scss" src="./styles/weui.scss"></style>
+<style lang="scss" src="./styles/icons.scss"></style>
+<style lang="scss" src="./styles/base.scss"></style>
+<script>
+  import wepy from 'wepy';
+  import WxUtils from './utils/WxUtils';
+  import 'wepy-async-function';
+  import { setStore } from 'wepy-redux'
+  import configStore from './store'
+  import Event from './utils/Event';
+  import Consts from './api/consts';
+  const store = configStore();
+  setStore(store);
+  export default class extends wepy.app {
+    globalData = {
+      auth: {},
+      scene: null,
+      shopName: '',
+      // /pages/customer/index 或者 /pages/customer/index_template
+      customerHomePage: '/pages/customer/index',
+      homePage: '/pages/home/index',
+      componentsParams: {},
+      statusBarHeight: 0,
+      appId: ''
+    };
+    constructor () {
+      super();
+      // 注册中间件
+      this.use('requestfix');
+      this.use('promisify');
+      this.intercept('request', {
+        config (p) {
+          p.header = this.createAuthHeader();
+          return p;
+        }
+      });
+      this.intercept('uploadFile', {
+        config (p) {
+          p.header = this.createAuthHeader();
+          return p;
+        },
+        success (p) {
+          return p.data;
+        }
+      });
+    }
+    /**
+     * 构造权限头部
+     */
+    createAuthHeader () {
+      const token = wepy.$instance.globalData.auth.token || wepy.getStorageSync('token');
+      const header = wepy.$instance.globalData.HeaderInfo
+      if (token) {
+        header['ZL-TOKEN'] = token;
+      }
+      // const appSetting = Consts.Apps[wepy.$instance.globalData.appId]
+      // header['ZL-APPKEY'] = typeof (appSetting) === 'object' ? appSetting[Consts.env] : appSetting
+      return header;
+    }
+    // onAwake() {
+    //   console.log('onAwake')
+    // }
+    async onLaunch(param) {
+      console.log('onLaunch param', param)
+      if (this.config.tabBar) {
+        wepy.$instance.globalData.homePage = '/' + this.config.tabBar.list[0].pagePath
+      }
+      // 存储启动路径
+      wepy.$instance.globalData.launchPath = param.path
+      // wx.hideTabBar({aniamtion: false})
+      wepy.$instance.globalData.sessionRetryTimes = 0
+      wepy.$instance.globalData.isFirstShowAfterLaunch = true
+      // Event.listen('awake', this.onAwake.bind(this), this);
+      // 侦听在首页
+      const sysInfo = wx.getSystemInfoSync()
+      wepy.$instance.globalData.HeaderInfo = {
+        'ZL-VERSION': sysInfo.version,
+        'ZL-SYSTEM': sysInfo.system,
+        'ZL-PLATFORM': sysInfo.platform,
+        'ZL-SDKVERSION': sysInfo.SDKVersion,
+        'ZL-BRAND': sysInfo.brand,
+        'ZL-MODEL': sysInfo.model,
+        'ZL-SCREENWIDTH': sysInfo.screenWidth,
+        'ZL-SCREENHEIGHT': sysInfo.screenHeight,
+        'ZL-WEAPPVERSION': Consts.version
+      }
+      // 记录设备
+      wepy.$instance.globalData.deviceModel = sysInfo.model
+      wepy.$instance.globalData.isIOS = sysInfo.system.indexOf('iOS') === 0
+      wepy.$instance.globalData.isIphoneX = wepy.$instance.globalData.deviceModel.indexOf('iPhone X') !== -1
+      const accountInfo = wx.getAccountInfoSync();
+      wepy.$instance.globalData.appId = accountInfo.miniProgram.appId
+      // wepy.$instance.globalData.HeaderInfo['ZL-APPKEY'] = Consts.jutaApps[wepy.$instance.globalData.appId]
+      // 校验SDK
+      WxUtils.checkSDK();
+      // 同步开放平台EXT数据
+      const ext = wepy.getExtConfigSync();
+      // console.info('[ext] init ext data', ext);
+      if (ext.globalConfig) {
+        // console.info('[ext] init ext global config data', ext.globalConfig);
+        Object.assign(ext, ext.globalConfig);
+      }
+      Object.assign(wepy.$instance.globalData, ext);
+      // 同步权限数据
+      this.syncStoreConfig('login_code');
+      this.syncStoreConfig('user');
+      // 获取保存场景值
+      if (param && param.scene) {
+        wepy.$instance.globalData.scene = param.scene;
+        console.info('[auth]onLaunch end');
+      }
+    }
+    onShow(param) {
+      if (wepy.$instance.globalData.isIOS || param.scene !== 1089) {
+        const homePage = wepy.$instance.globalData.homePage.replace('/pages/', 'pages/')
+        wepy.$instance.globalData.appShowWithoutHomePage = param.path !== homePage
+      }
+      // 强制更新 1.9.90或以上支持
+      if (wx.canIUse('getUpdateManager')) {
+        const updateManager = wx.getUpdateManager()
+        updateManager.onCheckForUpdate(function (res) {
+            // 请求完新版本信息的回调
+            console.log('是否有版本更新：' + res.hasUpdate)
+        })
+        updateManager.onUpdateReady(function () {
+            wx.showModal({
+                title: '更新提示',
+                content: '新版本已经准备好，是否重启应用？',
+                success: function (res) {
+                    if (res.confirm) {
+                        // 新的版本已经下载好，调用 applyUpdate 应用新版本并重启
+                        updateManager.applyUpdate()
+                    }
+                }
+            })
+        })
+      }
+      if (wepy.$instance.globalData.isFirstShowAfterLaunch === true) {
+        wepy.$instance.globalData.isFirstShowAfterLaunch = false
+        return
+      }
+      Event.emit('awake', param)
+    }
+    // 小程序发生脚本错误，或者 api 调用失败时触发。
+    // onError(error) {
+    // }
+    // 页面不存在监听函数
+    // onPageNotFound(res) {
+    // }
+    syncStoreConfig(key) {
+      try {
+        const value = wepy.getStorageSync(key);
+        if (value !== '') {
+          console.info(`[auth]${key} sync success `);
+          wepy.$instance.globalData.auth[key] = value;
+        }
+      } catch (e) {
+        console.warn(`[auth]${key} sync fail `);
+      }
+    }
+    config = {
+      navigateToMiniProgramAppIdList: ['wx540439790c09d4fa', 'wx3661dec4a09553f1'],
+      pages: [
+        'pages/home/index',
+        'pages/home/login'
+      ],
+      window: {
+        backgroundTextStyle: 'dark',
+        backgroundColor: '#FFFFFF',
+        navigationBarBackgroundColor: '#FFFFFF',
+        navigationBarTextStyle: 'black' // ,
+        // navigationStyle: 'custom'
+      },
+      // tabBar: {
+      //   color: '#777777',
+      //   selectedColor: '#e34a4e',
+      //   // 仅支持 black/white
+      //   borderStyle: 'black',
+      //   // 可选值 bottom、top
+      //   position: 'bottom',
+      //   // backgroundColor: '#EBEBEB',
+      //   list: [
+      //   {
+      //     pagePath: 'pages/home/index',
+      //     text: '首页',
+      //     iconPath: './images/tabbar/icon_shouye_nol@2x.png',
+      //     selectedIconPath: './images/tabbar/icon_shouye_sel@2x.png'
+      //   }]
+      // }
+    };
+  }
+</script>

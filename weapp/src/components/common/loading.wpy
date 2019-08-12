@@ -1,0 +1,44 @@
+<template>
+  <view wx:if="{{!init}}" class="column-center loading-wrap">
+    <view class="weui-toast">
+      <i class="weui-loading weui-icon_toast"></i>
+      <view class="weui-toast__content">加载中</view>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy';
+  export default class Loading extends wepy.component {
+    props = {
+      init: {}
+    };
+  }
+</script>
+<style lang="scss">
+  .weui-toast {
+    position: fixed;
+    z-index: 5000;
+    width: 7.6em;
+    min-height: 7.6em;
+    top: 180px;
+    left: 50%;
+    margin-left: -3.8em;
+    background: rgba(17, 17, 17, 0.7);
+    text-align: center;
+    border-radius: 5px;
+    color: #FFFFFF;
+  }
+  .weui-icon_toast.weui-loading {
+    margin: 32px 0 0;
+    width: 38px;
+    height: 38px;
+    vertical-align: baseline;
+  }
+  .weui-toast__content {
+    margin: 0 0 16px;
+    font-size: 14px;
+    color:#ffffff;
+  }
+  
+</style>
