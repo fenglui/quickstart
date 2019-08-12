@@ -32,23 +32,38 @@ Key：fZw2VoYzXakllUuLVdTH13QYWnjD6NZrxgubQkaRyxD5+HNMqdr+WZKkaa6IoE5N
 
 https://lanhuapp.com
 
-#### Axure插件
+#### Axure插件(for 产品)
 
 https://lanhuapp.com/prd
 
-#### PS插件
+#### PS插件(for 设计)
 
 https://lanhuapp.com/ps
+
+#### PS (for 设计)
+
+Photoshop_CC_18.1.1_CHS_3D_201708_X64
 
 ## 测试环境
 
 ### nodejs
 
+安装64位nodejs
 https://nodejs.org/en/
+
+安装cnpm （npm淘宝镜像）
+
+```console
+npm install -g cnpm --registry=https://registry.npm.taobao.org
+```
 
 ### 微信小程序开发工具
 
 https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html
+
+### 微信公众平台
+
+https://mp.weixin.qq.com/
 
 ## 常见问题
 
