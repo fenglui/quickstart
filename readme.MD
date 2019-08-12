@@ -8,19 +8,15 @@
 
 #### GIT内核
 
-https://git-scm.com/download/win
+GIT - [https://git-scm.com/download/win]
 
-#### tortoisegit 图形化界面
-
-https://tortoisegit.org/
+tortoisegit - [https://tortoisegit.org/]
 
 ## 原型设计
 
 ### Axure RP 8
 
-Windows 版下载地址
-
-https://axure.cachefly.net/versions/8-0/AxureRP-Setup-3382.exe
+Axure Windows - [https://axure.cachefly.net/versions/8-0/AxureRP-Setup-3382.exe]
 
 Licensee：zdfans
 
@@ -30,15 +26,11 @@ Key：fZw2VoYzXakllUuLVdTH13QYWnjD6NZrxgubQkaRyxD5+HNMqdr+WZKkaa6IoE5N
 
 ### 蓝湖
 
-https://lanhuapp.com
+蓝湖官网 - [https://lanhuapp.com]
 
-#### Axure插件(for 产品)
+#### Axure插件(for 产品) - [https://lanhuapp.com/prd]
 
-https://lanhuapp.com/prd
-
-#### PS插件(for 设计)
-
-https://lanhuapp.com/ps
+#### PS插件(for 设计) - [https://lanhuapp.com/ps]
 
 #### PS (for 设计)
 
@@ -46,10 +38,9 @@ Photoshop_CC_18.1.1_CHS_3D_201708_X64
 
 ## 测试环境
 
-### nodejs
+### node + wepy + 微信小程序开发工具
 
-安装64位nodejs
-https://nodejs.org/en/
+nodejs 64位 -[https://nodejs.org/en/]
 
 安装cnpm （npm淘宝镜像）
 
@@ -57,16 +48,28 @@ https://nodejs.org/en/
 npm install -g cnpm --registry=https://registry.npm.taobao.org
 ```
 
-### 微信小程序开发工具
+### wepy
 
-https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html
+全局安装或更新 wepy-cli
 
-### 微信公众平台
+```console
+cnpm install -g wepy-cli
+```
 
-https://mp.weixin.qq.com/
+### 微信小程序开发工具 - [https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html]
+
+### 编辑器
+
+vs code - [https://code.visualstudio.com/]
+
+### 微信公众平台 - [https://mp.weixin.qq.com/]
+
+### 素材
+
+#### 图怪兽 - [https://818ps.com]
+
+公司有
 
 ## 常见问题
 
-### 关于win10安装软件出现2503、2502错误的解决方法
-
-https://blog.csdn.net/u012750283/article/details/65935854
+### 关于win10安装软件出现2503、2502错误的解决方法 - [https://blog.csdn.net/u012750283/article/details/65935854]
