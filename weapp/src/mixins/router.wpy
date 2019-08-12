@@ -1,6 +1,6 @@
 <script>
   import wepy from 'wepy';
-  import Event from '../utils/Event';
+  // import Event from '../utils/Event';
   import Tips from '../utils/Tips';
   // import WxUtils from '../utils/WxUtils';
   // import report from '../api/report';
@@ -8,73 +8,6 @@
    * 分页通用方法
    */
   export default class router extends wepy.mixin {
-    // config = {};
-    // components = {};
-    /**
-     * 直接购买商品
-     */
-    buy(goods) {
-      // 只能在SLIDER模式下触发，否则会降级为购物车购买
-      console.log('buy')
-      const source = this.$root.$wxpage.route;
-      const action = 'buy';
-      Event.emit(Event.GOODS_PANEL_OPEN, {goods, source, action});
-    }
-    addToCart(goods) {
-      // 只能在SLIDER模式下触发，否则会降级为购物车购买
-      // console.log('cart')
-      const source = this.$root.$wxpage.route;
-      const action = 'cart';
-      Event.emit(Event.GOODS_PANEL_OPEN, {goods, source, action});
-    }
-    group(goods, state, groupId) {
-      // 只能在SLIDER模式下触发，否则会降级为购物车购买
-      // 处理规格替换拼团价格
-      // if (groupId) {
-      //   console.log('group', groupId)
-      //   goods.groupId = groupId;
-      // }
-      const source = this.$root.$wxpage.route;
-      console.log('state = ' + state)
-      const action = 'group';
-      Event.emit(Event.GOODS_PANEL_OPEN, {goods, source, action});
-    }
-    joinGroup(goods, state, groupId) {
-      console.log('joinGroup', groupId)
-      // 只能在SLIDER模式下触发，否则会降级为购物车购买
-      // 处理规格替换拼团价格
-      if (groupId) {
-        console.log('group', groupId)
-        goods.groupId = groupId;
-      }
-      const source = this.$root.$wxpage.route;
-      console.log('state = ' + state)
-      const action = 'join';
-      Event.emit(Event.GOODS_PANEL_OPEN, {goods, source, action});
-    }
-    /**
-     * 砍价
-     */
-    bargain(goods, state, bargainId) {
-      console.log('router bargain', bargainId)
-      // 只能在SLIDER模式下触发，否则会降级为购物车购买
-      // 处理规格替换拼团价格
-      const source = this.$root.$wxpage.route;
-      // console.log('state = ' + state)
-      if (bargainId && bargainId > 0) {
-        this.$root.$navigate(`/pages/bargain/detail?bargainId=${bargainId}`)
-      } else {
-        const action = 'bargain';
-        Event.emit(Event.GOODS_PANEL_OPEN, {goods, source, action});
-      }
-    }
-    /**
-     * 跳转到分类购物
-     */
-    routeCategory () {
-      wepy.$instance.globalData.pageParams['pages/goods/category'].needReload = true
-      this.$root.$switch('/pages/goods/category');
-    }
     /**
      * 跳转到首页
      */
@@ -93,53 +26,6 @@
       },
       routeToCustomer() {
         this.roureCustomer();
-      },
-      routeToCategory() {
-        this.routeCategory();
-      },
-      /**
-       * 购买事件
-       */
-      handleBuy(goods) {
-        this.buy(goods);
-      },
-      /**
-       * 购买事件
-       */
-      handleCart(goods) {
-        this.addToCart(goods);
-      },
-      /**
-       * 处理拼团事件
-       */
-      handleGroup(goods, state, groupId) {
-        console.log('handleGroup state = ' + state)
-        this.group(goods, state, groupId);
-      },
-      handleJoinGroup(goods, state, groupId) {
-        console.log('handleGroup state = ' + state)
-        this.group(goods, state, groupId);
-      },
-      /**
-       * 处理砍价事件
-       */
-      handleBargain(goods, state, bargainId) {
-        this.bargain(goods, state, bargainId)
-      },
-      /**
-       * 处理跳转到订单详情页面
-       */
-      routeToOrder(orderId) {
-        this.$root.$navigate(`/pages/order/detail?orderId=${orderId}`)
-      },
-      routeToBargain () {
-        this.$root.$navigate('/pages/bargain/index')
-      },
-      routeToGroup () {
-        this.$root.$navigate('/pages/group/index')
-      },
-      routeToScore () {
-        this.$root.$navigate('/pages/gift/index')
       },
       /**
        * 处理图片点击事件
@@ -193,89 +79,6 @@
           case 'PAGE_BACK':
             // 跳转指定页面
             wepy.navigateBack();
-            break;
-          case 'GOODS':
-            // 某个商品
-            this.$root.$navigate(`/pages/goods/detail?goodsId=${targetId}`);
-            break;
-          case 'CATEGORY':
-            // 某个分类
-            if (targetId) {
-              wepy.$instance.globalData.pageParams['pages/goods/category'].id = targetId;
-            }
-            this.routeCategory();
-            break;
-          case 'HOME':
-            // 首页
-            this.routeToHome();
-            break;
-          case 'USER':
-            // 用户首页
-            this.$root.$switch(wepy.$instance.globalData.customerHomePage);
-            break;
-          case 'GOODS_ALL':
-            // 商品首页
-            this.routeCategory();
-            break;
-          case 'COUPON_WX_OWN':
-            // 我的微信代金券
-            this.$root.$navigate('/pages/coupon/list');
-            break;
-          case 'COUPON_PICK':
-            // 领取优惠券
-            this.$root.$navigate('/pages/coupon/pick');
-            break;
-          case 'ADDRESS':
-            // 我的地址
-            this.$root.$navigate('/pages/customer/address_list');
-            break;
-          case 'cart':
-            // 购物车
-            this.$root.$switch('/pages/goods/cart');
-          break;
-          case 'ORDER_LIST':
-            // 订单列表
-            this.$root.$navigate('/pages/order/list');
-            break;
-          case 'ORDER_LIST_1':
-            // 订单列表 待付款
-            this.$root.$navigate('/pages/order/list?status=1');
-            break;
-          case 'ORDER_LIST_2':
-            // 订单列表 待发货
-            this.$root.$navigate('/pages/order/list?status=2');
-            break;
-          case 'ORDER_LIST_3':
-            // 订单列表 待收货
-            this.$root.$navigate('/pages/order/list?status=3');
-            break;
-          case 'GROUP_INDEX':
-            // 拼团列表
-            this.$root.$navigate('/pages/group/index');
-            break;
-          case 'GROUP_LIST':
-            // 我的拼团
-            this.$root.$navigate('/pages/group/list');
-            break;
-          case 'BARGAIN_INDEX':
-            // 砍价列表
-            this.$root.$navigate('/pages/bargain/index');
-            break;
-          case 'BARGAIN_LIST':
-            // 我的砍价
-            this.$root.$navigate('/pages/bargain/list');
-            break;
-          case 'GIFT_INDEX':
-            // 积分活动首页
-            this.$root.$navigate('/pages/gift/index');
-            break;
-          case 'NEW_USER_INDEX':
-            // 新人专区
-            this.$root.$navigate('/pages/new_user/index');
-            break;
-          case 'CS_ORDER_LIST':
-            // 售后
-            this.$root.$navigate('/pages/order/list?status=1&isShouHou=1');
             break;
           case 'PHONE':
             // 拨打电话
