@@ -81,7 +81,6 @@
       // }
     }
     onLoad() {
-      console.warn('base onLoad')
       if (wepy.$instance.$pages[wepy.$instance.globalData.homePage]) {
         this.homePageNotLoaded = !wepy.$instance.$pages[wepy.$instance.globalData.homePage].$data
       }
@@ -115,7 +114,6 @@
       return max;
     }
     loaded() {
-      console.warn('base loaded')
       this.init = true;
       this.$apply();
       Tips.loaded();

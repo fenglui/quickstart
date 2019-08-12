@@ -1,6 +1,7 @@
 <template>
   <Loading :init.sync="init"/>
   <scroll-view wx:if="{{ init }}" class="container" scroll-y scroll-into-view="{{ toView }}" bindscrolltoupper="scrolltoupper"  bindscrolltolower="scrolltolower" lower-threshold='100' style="{{ scrollViewStyle }}">
+    <text>starter template</text>
   </scroll-view>
 </template>
 <script>
@@ -31,9 +32,8 @@ export default class HomeIndex extends wepy.page {
   // async onUnload() {
   // }
   async loadData() {
-    console.warn('[home][index][loadData]')
+    // console.warn('[home][index][loadData]')
     this.loaded()
-    this.$apply()
   }
   async onPullDownRefresh() {
     Event.emit(this.pullDownRefreshEventName)

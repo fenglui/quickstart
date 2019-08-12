@@ -56,6 +56,12 @@ npm install -g cnpm --registry=https://registry.npm.taobao.org
 cnpm install -g wepy-cli
 ```
 
+### 其他工具
+
+```console
+cnpm install -g rimraf
+```
+
 ### 微信小程序开发工具 - [https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html]
 
 ### 编辑器
@@ -68,8 +74,12 @@ vs code - [https://code.visualstudio.com/]
 
 #### 图怪兽 - [https://818ps.com]
 
-公司有
-
 ## 常见问题
 
 ### 关于win10安装软件出现2503、2502错误的解决方法 - [https://blog.csdn.net/u012750283/article/details/65935854]
+
+### 如何快速删除node_modules目录
+
+```console
+rimraf node_modules
+```
