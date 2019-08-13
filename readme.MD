@@ -14,6 +14,10 @@ tortoisegit - [https://tortoisegit.org/]
 
 ## 原型设计
 
+### Axure 9.0
+
+Axure Windows - [http://zdfans7.com/ax9_29847.zip]
+
 ### Axure RP 8
 
 Axure Windows - [https://axure.cachefly.net/versions/8-0/AxureRP-Setup-3382.exe]
@@ -64,7 +68,7 @@ cnpm install -g rimraf
 
 ### 微信小程序开发工具 - [https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html]
 
-### 编辑器
+### 代码和文本编辑器
 
 vs code - [https://code.visualstudio.com/]
 
@@ -73,6 +77,14 @@ vs code - [https://code.visualstudio.com/]
 ### 素材
 
 #### 图怪兽 - [https://818ps.com]
+
+### 参考
+
+xiaopiu 快速原型 - [https://www.xiaopiu.com]
+
+产品经理交互设计社区 - [http://www.webppd.com]
+
+链家原型 - [https://www.xiaopiu.com/square?page=6&libPop=project&libId=59f199c5e7485455c20eb7bb]
 
 ## 常见问题
 
