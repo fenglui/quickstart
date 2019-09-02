@@ -1,0 +1,134 @@
+
+<style lang="scss">
+.container{
+    .demo-button{
+        .van-button{
+            margin-right: 16px;
+            margin-bottom: 12px;
+        }
+        .demo-margin-right{
+            margin-right: 16px;
+        }
+    }
+}
+</style>
+<template>
+    <div class="container demo-button">
+        <demo-block title="按钮类型" padding>
+            <van-button type="default">默认按钮</van-button>
+            <van-button type="primary">主要按钮</van-button>
+            <van-button type="info">信息按钮</van-button>
+            <van-button type="warning">警告按钮</van-button>
+            <van-button type="danger">危险按钮</van-button>
+        </demo-block>
+
+        <demo-block title="朴素按钮" padding>
+            <van-button plain type="primary">朴素按钮</van-button>
+            <van-button plain type="danger">朴素按钮</van-button>
+        </demo-block>
+
+        <demo-block title="细边框" padding>
+            <van-button type="primary" plain hairline class="demo-margin-right">细边框按钮</van-button>
+            <van-button type="danger" plain hairline>细边框按钮</van-button>
+        </demo-block>
+
+        <demo-block title="禁用状态" padding>
+            <van-button type="primary" disabled class="demo-margin-right">禁用状态</van-button>
+            <van-button type="danger" disabled>禁用状态</van-button>
+        </demo-block>
+
+        <demo-block title="加载状态" padding>
+            <van-button loading type="primary" class="demo-margin-right" />
+            <van-button loading type="danger" loading-text="加载中..." />
+        </demo-block>
+
+        <demo-block title="按钮形状" padding>
+            <van-button type="primary" square class="demo-margin-right">方形按钮</van-button>
+            <van-button type="danger" round>圆形按钮</van-button>
+        </demo-block>
+
+        <demo-block title="图标按钮" padding>
+            <van-button type="primary" icon="star-o" class="demo-margin-right" />
+            <van-button type="primary" icon="star-o" class="demo-margin-right">按钮</van-button>
+            <van-button plain type="primary" icon="https://img.yzcdn.cn/vant/logo.png">按钮</van-button>
+        </demo-block>
+
+        <demo-block title="按钮尺寸" padding>
+            <van-button type="primary" size="large" block custom-class="demo-margin-bottom">大号按钮</van-button>
+            <van-button type="primary" class="demo-margin-right">普通按钮</van-button>
+            <van-button type="primary" size="small" class="demo-margin-right">小型按钮</van-button>
+            <van-button type="primary" size="mini">迷你按钮</van-button>
+        </demo-block>
+
+        <demo-block title="自定义颜色" padding>
+            <van-button color="#7232dd" class="demo-margin-right">自定义颜色</van-button>
+            <van-button color="#7232dd" plain>自定义颜色</van-button>
+        </demo-block>
+        
+
+        <!-- <van-cell-group>
+            <van-cell title="单元格" value="内容" />
+            <van-cell title="单元格" value="内容" label="描述信息" border="{{ false }}" />
+        </van-cell-group> -->
+
+        <!-- <van-cell-group>
+            <van-field
+                value="{{ value }}"
+                placeholder="请输入用户名"
+                border="{{ false }}"
+                bind:change="onChange"
+            />
+        </van-cell-group> -->
+    </div>
+</template>
+<script>
+    import wepy from '@wepy/core'
+    import eventHub from '../../common/eventHub';
+    import { mapState } from '@wepy/x';
+    import store from '../../store';
+    import basePageMixin from '../../mixins/base'
+    
+    wepy.page({
+        store,
+        config: {
+            // navigationBarTitleText: 'index'
+        },
+        // Page 级别 hook
+        hooks: {
+            // 'before-event': function (event, params) {
+            // },
+            // 'before-setData': function (dirty) {
+            // }
+        },
+        mixins: [basePageMixin],
+        data: {},
+        computed: {},
+        methods: {
+            async testMethod() {
+                return 100
+            }
+        },
+        async created() {
+            console.warn(this.$root)
+            var res = await this.testMethod()
+            console.warn(res)
+            res = await wepy.wx.getUserInfo()
+            console.warn(res)
+        },
+        async onLoad() {
+            console.warn('[home][index] onLoad')
+        }
+    })
+</script>
+<config>
+{
+    navigationBarTitleText: 'index',
+    usingComponents: {
+        'demo-block': '~@/components/demo-block',
+        'van-button': '~@/vant-weapp/button/index',
+        // 'van-cell': '~@/vant-weapp//cell/index',
+        // 'van-cell-group': '~@/vant-weapp/cell-group/index'
+    }
+}
+</config>
+
