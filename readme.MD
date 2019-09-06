@@ -64,12 +64,20 @@ Key：fZw2VoYzXakllUuLVdTH13QYWnjD6NZrxgubQkaRyxD5+HNMqdr+WZKkaa6IoE5N
 npm install -g cnpm --registry=https://registry.npm.taobao.org
 ```
 
-### wepy
+### wepy 1.x
 
 全局安装或更新 wepy-cli
 
 ```console
 cnpm install -g wepy-cli
+```
+
+### wepy 2.x
+
+同时维护 WePY 1.7.x 和 WePY 2.0.x 的开发者，应当考虑在当前项目安装 CLI，而非全局安装。可以直接使用 1.7.x 的 CLI 去初始化 2.0.x 的项目
+
+```console
+wepy init standard#2.0.x myproj
 ```
 
 ### 运行一个wepy项目（Hot Reload 模式）

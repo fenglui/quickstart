@@ -1,6 +1,7 @@
 
 <style lang="scss">
 .container{
+    padding: 0 12px;
     .demo-button{
         .van-button{
             margin-right: 16px;
