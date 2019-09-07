@@ -1,0 +1,201 @@
+<html>
+<head>
+    <title>USDT</title>
+    <meta name="renderer" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <script src="./lib/jquery.js"></script>
+	<script src="./lib/hammer.min.js"></script>
+    <style type="text/css">
+		html,body{
+			width: 100%;
+			background: #000000;
+		}
+		#head_container{
+			width: 100%;
+		}
+		#head_container .l{
+			width: 50%;
+			padding-left: 10px;
+			float: left;
+		}
+		#head_container .l h3{
+			margin: 0;
+			padding: 10px 0px 0px 0px;
+			font-size: 28px;
+		}
+		#head_container .l h5{
+			padding: 5px 0px 10px 0px;
+			margin: 0;
+			color: #e5e5e5;
+			font-weight: normal;
+			font-size: 12px;
+		}
+		#head_container .l h5 .change{
+			font-style: normal;
+			font-size: 12px;
+		}
+		#head_container .r{
+			width: 30%;
+			float: right;
+		}
+		#head_container .r ul{
+			list-style-type: none;
+			padding: 10px;
+			margin: 0;
+			font-size: 13px;
+		}
+		#head_container .r ul li{
+			padding-bottom: 10px;
+		}
+		#head_container .r ul li .lable{
+			width: 20%;
+			float: left;
+			padding: 0;
+			margin: 0;
+			color: #CCCCCC;
+			font-weight: normal;
+		}
+		#head_container .r ul li .value{
+			width: 80%;
+			float: right;
+			text-align: right;
+			padding: 0;
+			margin: 0;
+			color: #e5e5e5;
+			font-weight: normal;
+		}
+		.up{
+			color: #00b48e;
+		}
+		.down{
+			color: #d14b64;
+		}
+		#footer-container{
+			position: fixed;
+			bottom: 0;
+			width: 100%;
+			background: #000000;
+		}
+		#footer-container .item{
+			width: 50%;
+			float: left;
+			text-align: center;
+		}
+		#footer-container button{
+			width: 95%;
+			height: 35px;
+			line-height: 35px;
+			border: 0;
+			margin: 10px 0px;
+			border-radius: 2px;
+			color: #e5e5e5;
+			outline: none;
+		}
+		#footer-container .buy{
+			background: #00b48e;
+		}
+		#footer-container .sell{
+			background: #d14b64;
+		}
+    </style>
+</head>
+
+
+<body>
+<div id="head_container">
+	<div class="l">
+		<h3 class="down">2.2541</h3>
+		<h5>≈15.54CNY <i class="change down">-3.67%</i></h5>
+	</div>
+	<div class="r">
+		<ul>
+			<li><h5 class="lable">高</h5><h5 class="value">2.37</h5><li>
+			<li><h5 class="lable">低</h5><h5 class="value">2.37</h5><li>
+			<li><h5 class="lable">24H</h5><h5 class="value">2554535.37</h5><li>
+		</ul>
+	</div>
+</div>
+<div id="footer-container">
+	<div class="item"><button class="buy" id="buy">买入</button></div>
+	<div class="item"><button class="sell" id="sell">卖出</button></div>
+</div>
+<div style="clear: both;"></div>
+<div id="kline_container"></div>
+
+
+<script type="text/javascript" src="https://js.cdn.aliyun.dcloud.net.cn/dev/uni-app/uni.webview.0.2.2.js"></script>
+<script src="./dist/kline.js"></script>
+
+<script type="text/javascript">
+	
+	document.addEventListener('UniAppJSBridgeReady', function() {
+		document.getElementById("buy").addEventListener("click", function(){
+			uni.postMessage({  
+				data: {symbol:symbol, type: 1}
+			});  
+			setTimeout( () => {
+				uni.switchTab({
+					url:"/pages/trade/main"
+				})
+			}, 500);
+		});
+	    document.getElementById("sell").addEventListener("click", function(){
+	    	uni.postMessage({  
+	    		data: {symbol:symbol, type: 2}
+	    	});  
+	    	setTimeout( () => {
+	    		uni.switchTab({
+	    			url:"/pages/trade/main"
+	    		})
+	    	}, 500);
+	    });
+	    uni.getEnv(function(res) {
+	        console.log('当前环境：' + JSON.stringify(res));
+	    });
+	});
+	
+	function GetQueryString(name){
+		 var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+		 var r = window.location.search.substr(1).match(reg);
+		 if(r!=null)return  unescape(r[2]); return null;
+	}
+	var symbol = GetQueryString("symbol"); 
+	document.title = symbol;
+    var kline = null;
+    function createKline() {
+        if(kline != null){
+            kline.destroy();
+        }
+        kline = new Kline({
+            element: "#kline_container",
+            width: window.screen.width,
+            height: window.screen.height - 250,
+            theme: 'dark', // light/dark
+            language: 'zh-cn', // zh-cn/en-us/zh-tw
+            ranges: ["1w", "1d", "1h", "30m", "15m", "5m", "1m", "line"],
+            symbol: "BTC",
+            symbolName: "BTC/USD",
+            type: "poll", // poll/socket
+            url: "http://112.74.33.72/v2/s/trade/market/kline/"+symbol+"/1min",
+            limit: 1000,
+            intervalTime: 5000,
+            debug: true,
+            showTrade: false,
+            onResize: function(width, height) {
+                console.log("chart resized: " + width + " " + height);
+            },
+            filterData(res){
+                return res;
+            }
+        });
+        kline.draw();
+    }
+    createKline();
+	
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,140 @@
+{
+    "pages": [
+        {
+            "path": "pages/home/main",
+            "style": {
+                "navigationBarTitleText": "首页",
+				"app-plus": {  
+					"titleNView": {
+				        "tags": [{
+				                "tag" : "img",  
+								"src" : "/static/img/home-icon.png",  
+								"position" : {  
+									"left" : "10px",  
+									"top" : "8px",  
+									"width" : "26px",  
+									"height" : "26px"  
+								}  
+				            }
+				        ],
+						"buttons": [{
+						        "text": "",
+						        "fontSize": "15px",
+						        "float": "left"
+						    }
+						]
+				    }
+				}
+            }
+        },
+        {
+            "path": "pages/quotation/main",
+            "style": {
+                "navigationBarTitleText": "行情"
+            }
+        },
+        {
+            "path": "pages/trade/main",
+            "style": {
+                "navigationBarTitleText": "",
+				"app-plus": {  
+					"titleNView": {
+                        "buttons": [{
+                                "text": "\ue602",
+                                "fontSrc": "/static/font/iconfont.ttf",
+                                "fontSize": "15px",
+                                "float": "left"
+                            },
+                            {
+                                "text": "\ue512",
+                                "fontSrc": "/static/font/iconfont.ttf",
+                                "fontSize": "18px"
+                            }
+                        ]
+                    }
+				}
+            }
+        },
+        {
+            "path": "pages/trade/kline/main",
+			"style": {
+			    "navigationBarTitleText": " "
+			}
+        },
+        {
+            "path": "pages/assets/main",
+            "style": {
+                "navigationBarTitleText": "币币资产"
+            }
+        },
+        {
+            "path": "pages/assets/detail/main",
+            "style": {
+                "navigationBarTitleText": "资产详情"
+            }
+        },
+		 {
+		    "path": "pages/login/login",
+		    "style": {
+		        "navigationBarTitleText": "登录"
+		    }
+		}, {
+            "path": "pages/reg/reg",
+            "style": {
+                "navigationBarTitleText": "注册"
+            }
+        }, {
+            "path": "pages/pwd/pwd",
+            "style": {
+                "navigationBarTitleText": "找回密码"
+            }
+        }, {
+            "path": "pages/ucenter/setting/main",
+            "style": {
+                "navigationBarTitleText": "设置"
+            }
+        }, {
+            "path": "pages/ucenter/order/main",
+            "style": {
+                "navigationBarTitleText": "委托单",
+				"enablePullDownRefresh": false
+            }
+        }
+    ],
+    "globalStyle": {
+        "backgroundTextStyle": "light",
+        "navigationBarBackgroundColor": "fafafa",
+        "navigationBarTitleText": "币币",
+        "navigationBarTextStyle": "black"
+    },
+    "tabBar": {
+        "color": "#130f13",
+        "selectedColor": "#0f0f0f",
+        "list": [
+            {
+                "pagePath": "pages/home/main",
+                "text": "首页",
+                "iconPath": "static/icon/home.png",
+                "selectedIconPath": "static/icon/home-active.png"
+            },
+            {
+                "pagePath": "pages/quotation/main",
+                "text": "行情",
+                "iconPath": "static/icon/quotations.png",
+                "selectedIconPath": "static/icon/quotations-active.png"
+            },
+            {
+                "pagePath": "pages/trade/main",
+                "text": "交易",
+                "iconPath": "static/icon/trade.png",
+                "selectedIconPath": "static/icon/trade-active.png"
+            },
+            {
+                "pagePath": "pages/assets/main",
+                "text": "资产",
+                "iconPath": "static/icon/asset.png",
+                "selectedIconPath": "static/icon/asset-active.png"
+            }
+        ]
+    }
+}
