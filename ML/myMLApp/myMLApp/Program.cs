@@ -26,7 +26,7 @@ namespace myMLApp
 
             // Try model on sample data
             ModelOutput result = predEngine.Predict(input);
-            Console.WriteLine(result.Score);
+            Console.WriteLine($"sentimentText = {input.SentimentText}; prediction = { result.Prediction }; score = {result.Score};");
             Console.ReadLine();
         }
     }

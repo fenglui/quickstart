@@ -1,0 +1,13 @@
+/uni-app/mix-mall/unpackage
+/uni-app/ColorUI/node_modules
+/uni-app/xchange-app/node_modules
+/dotnet core 3.0/BlazorApp/BlazorApp/obj
+/dotnet core 3.0/BlazorApp/BlazorApp/bin
+/dotnet core 3.0/BlazorApp/.vs
+/ML/myMLApp/myMLAppML.ConsoleApp/bin
+/ML/myMLApp/myMLAppML.ConsoleApp/obj
+/ML/myMLApp/.vs
+/ML/myMLApp/myMLApp/obj
+/ML/myMLApp/myMLApp/bin
+/ML/myMLApp/myMLAppML.Model/obj
+/ML/myMLApp/myMLAppML.Model/bin
