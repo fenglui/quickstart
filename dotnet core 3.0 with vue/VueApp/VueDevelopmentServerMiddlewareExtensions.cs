@@ -396,7 +396,9 @@ namespace Microsoft.AspNetCore.SpaServices.VueDevelopmentServer
                 RedirectStandardInput = true,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
-                WorkingDirectory = workingDirectory
+                WorkingDirectory = workingDirectory,
+                StandardOutputEncoding = Encoding.UTF8,
+                StandardErrorEncoding = Encoding.UTF8
             };
 
             if (envVars != null)

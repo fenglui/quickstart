@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.SpaServices.VueDevelopmentServer;
+using System.Text;
 
 namespace VueApp
 {
@@ -34,6 +35,9 @@ namespace VueApp
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            //启用 GB2312
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
