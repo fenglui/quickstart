@@ -429,7 +429,7 @@ namespace Microsoft.AspNetCore.SpaServices.VueDevelopmentServer
 
             StdErr.OnReceivedLine += line =>
             {
-                if (!string.IsNullOrWhiteSpace(line))
+                if (!string.IsNullOrWhiteSpace(line) && line.Contains("webpack.Progress") == false)
                 {
                     logger.LogError(StripAnsiColors(line));
                 }
