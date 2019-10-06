@@ -23,7 +23,8 @@ namespace VueApp
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddControllersWithViews();
+            services.AddControllersWithViews()
+            .AddNewtonsoftJson(options => { options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss"; });
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>

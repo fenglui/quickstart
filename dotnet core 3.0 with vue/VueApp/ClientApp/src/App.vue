@@ -1,20 +1,27 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <SideBar />
+    <div class="main">
+      <div class="top-row px-4">
+          <a href="Identity/Account/Register">Register</a>
+          <a href="Identity/Account/Login">Log in</a>
+          <a href="https://docs.microsoft.com/en-us/aspnet/" target="_blank">About</a>
+      </div>
+      <div class="content px-4">
+          <router-view/>
+      </div>
     </div>
-    <router-view/>
   </div>
 </template>
+<script>
+import SideBar from '@/components/SideBar.vue'
+export default {
+  components: {
+    SideBar
+  }
+}
+</script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+
 </style>

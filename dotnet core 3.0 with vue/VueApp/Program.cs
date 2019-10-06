@@ -18,6 +18,8 @@ namespace VueApp
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+            .UseKestrel()
+            .UseUrls("http://*:9001")
+            .UseStartup<Startup>();
     }
 }
