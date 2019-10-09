@@ -22,6 +22,28 @@ namespace VueApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll",
+                builder =>
+                {
+                    builder
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    //.AllowCredentials()
+                    //.AllowAnyOrigin()
+                    //.WithOrigins(
+                    //    "https://localhost:44384", "https://192.168.0.102:62633")
+                    ;
+                }
+               );
+            });
+
+            // 允许 IIS InProcess Hosting 的同步 IO
+            services.Configure<IISServerOptions>(options =>
+            {
+                options.AllowSynchronousIO = true;
+            });
 
             services.AddControllersWithViews()
             .AddNewtonsoftJson(options => { options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss"; });
@@ -50,6 +72,7 @@ namespace VueApp
                 app.UseHsts();
             }
 
+            app.UseCors("AllowAll");
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();

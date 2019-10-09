@@ -1,6 +1,6 @@
 module.exports = {
 
-  title: '??',
+  title: 'vue-app',
 
   /**
    * @type {boolean} true | false

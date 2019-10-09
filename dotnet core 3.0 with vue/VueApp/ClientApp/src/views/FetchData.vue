@@ -14,7 +14,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="forecast in forecasts">
+                <tr v-for="forecast in forecasts" v-bind:key="forecast.date">
                     <td>{{ forecast.date }}</td>
                     <td>{{ forecast.temperatureC }}</td>
                     <td>{{ forecast.temperatureF }}</td>
@@ -34,7 +34,7 @@ export default {
     },
     async mounted() {
         const res = await axios.get('/WeatherForecast')
-        console.log(res)
+        //console.log(res)
         if (res && res.status == 200) {
             this.forecasts = res.data
         }

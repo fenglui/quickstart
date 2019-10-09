@@ -9,7 +9,7 @@
         <div class="collapse">
             <ul class="nav flex-column">
                 <li class="nav-item px-3">
-                    <a href="" class="nav-link active">
+                    <a href="/#/home" class="nav-link active">
                         <span class="oi oi-home" aria-hidden="true"></span> Home
                     </a>
                 </li>
