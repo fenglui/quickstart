@@ -1,5 +1,3 @@
-// https://dev.to/alexeyzimarev/hacking-the-aspnet-core-react-spa-template-for-vuejs-1plg
-// https://gist.github.com/alexeyzimarev/f0262426aa38e2c1ed2913252ceb5e7a
 // This file is based on the code from the ASP.NET Core repository
 // https://github.com/aspnet/AspNetCore/tree/master/src/Middleware/SpaServices.Extensions/src
 // Copyright (c) .NET Foundation. All rights reserved.
@@ -51,8 +49,8 @@ namespace Microsoft.AspNetCore.SpaServices.VueDevelopmentServer
 
             if (string.IsNullOrEmpty(spaOptions.SourcePath))
             {
-               throw new InvalidOperationException(
-                   $"To use {nameof(UseVueDevelopmentServer)}, you must supply a non-empty value for the {nameof(SpaOptions.SourcePath)} property of {nameof(SpaOptions)} when calling {nameof(SpaApplicationBuilderExtensions.UseSpa)}.");
+                throw new InvalidOperationException(
+                    $"To use {nameof(UseVueDevelopmentServer)}, you must supply a non-empty value for the {nameof(SpaOptions.SourcePath)} property of {nameof(SpaOptions)} when calling {nameof(SpaApplicationBuilderExtensions.UseSpa)}.");
             }
 
             VueDevelopmentServerMiddleware.Attach(spaBuilder, npmScript);
@@ -74,7 +72,7 @@ namespace Microsoft.AspNetCore.SpaServices.VueDevelopmentServer
             var sourcePath = spaBuilder.Options.SourcePath;
             if (string.IsNullOrEmpty(sourcePath))
             {
-               throw new ArgumentException("Cannot be null or empty", nameof(sourcePath));
+                throw new ArgumentException("Cannot be null or empty", nameof(sourcePath));
             }
 
             if (string.IsNullOrEmpty(npmScriptName))
@@ -396,9 +394,7 @@ namespace Microsoft.AspNetCore.SpaServices.VueDevelopmentServer
                 RedirectStandardInput = true,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
-                WorkingDirectory = workingDirectory,
-                StandardOutputEncoding = Encoding.UTF8,
-                StandardErrorEncoding = Encoding.UTF8
+                WorkingDirectory = workingDirectory
             };
 
             if (envVars != null)
@@ -429,7 +425,7 @@ namespace Microsoft.AspNetCore.SpaServices.VueDevelopmentServer
 
             StdErr.OnReceivedLine += line =>
             {
-                if (!string.IsNullOrWhiteSpace(line) && line.Contains("webpack.Progress") == false)
+                if (!string.IsNullOrWhiteSpace(line) && line.Contains("webpack.Progress") == false) 
                 {
                     logger.LogError(StripAnsiColors(line));
                 }

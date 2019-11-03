@@ -1,6 +1,6 @@
 <template>
     <div class="counter">
-        <h1>Counter</h1>
+        <h1>Counter Sample</h1>
 
         <p>Current count: {{ currentCount }}</p>
 
@@ -11,13 +11,16 @@
 export default {
     data() {
         return {
-            currentCount: 0
+            currentCount: localStorage.getItem('counter') || 0
         }
     },
     methods: {
         IncrementCount() {
             this.currentCount ++
+            localStorage.setItem('counter', this.currentCount)
         }
+    },
+    mounted() {
     }
 }
 </script>

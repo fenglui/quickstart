@@ -7,6 +7,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.SpaServices.VueDevelopmentServer;
 using System.Text;
+using VueApp.Data;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace VueApp
 {
@@ -22,6 +25,12 @@ namespace VueApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDefaultIdentity<IdentityUser>()
+                .AddEntityFrameworkStores<ApplicationDbContext>();
+
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowAll",
@@ -79,6 +88,9 @@ namespace VueApp
 
             app.UseRouting();
 
+            app.UseAuthentication();
+            app.UseAuthorization();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
@@ -86,6 +98,8 @@ namespace VueApp
                     pattern: "{controller}/{action=Index}/{id?}");
             });
 
+            // https://dev.to/alexeyzimarev/hacking-the-aspnet-core-react-spa-template-for-vuejs-1plg
+            // https://gist.github.com/alexeyzimarev/f0262426aa38e2c1ed2913252ceb5e7a
             app.UseSpa(spa =>
             {
                 spa.Options.SourcePath = "ClientApp";
