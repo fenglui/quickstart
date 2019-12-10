@@ -1,0 +1,25 @@
+@page "/"
+@namespace SyncfusionBlazorApp.Pages
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SyncfusionBlazorApp</title>
+    <base href="~/" />
+    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
+    <link href="css/site.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.syncfusion.com/ej2/17.3.29/bootstrap4.css" />
+    <script src="https://cdn.syncfusion.com/ej2/17.3.29/dist/ej2.min.js"></script>
+    <script src="https://cdn.syncfusion.com/ej2/17.3.29/dist/ejs.interop.min.js"></script>
+</head>
+<body>
+    <app>
+        @(await Html.RenderComponentAsync<App>(RenderMode.ServerPrerendered))
+    </app>
+
+    <script src="_framework/blazor.server.js"></script>
+</body>
+</html>

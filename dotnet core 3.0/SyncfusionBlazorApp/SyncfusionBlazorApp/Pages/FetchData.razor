@@ -1,0 +1,32 @@
+﻿@page "/fetchdata"
+@using SyncfusionBlazorApp.Data
+@inject WeatherForecastService ForecastService
+
+<h1>Weather forecast</h1>
+
+<p>This component demonstrates fetching data from a service.</p>
+
+@if (forecasts == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+<EjsGrid AllowFiltering="true" AllowSorting="true" DataSource="@forecasts">
+    <GridColumns>
+        <GridColumn Field=@nameof(WeatherForecast.Date) Format="yMd" HeaderText="Date"></GridColumn>
+        <GridColumn Field=@nameof(WeatherForecast.TemperatureC) HeaderText="Temp. (C)"></GridColumn>
+        <GridColumn Field=@nameof(WeatherForecast.TemperatureF) HeaderText="Temp. (F)"></GridColumn>
+        <GridColumn Field=@nameof(WeatherForecast.Summary) HeaderText="Summary"></GridColumn>
+    </GridColumns>
+</EjsGrid>
+}
+
+@code {
+    WeatherForecast[] forecasts;
+
+    protected override async Task OnInitializedAsync()
+    {
+        forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
+    }
+}
