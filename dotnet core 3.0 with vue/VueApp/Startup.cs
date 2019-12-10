@@ -10,6 +10,9 @@ using System.Text;
 using VueApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using System.Runtime.InteropServices;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 
 namespace VueApp
 {
@@ -42,19 +45,34 @@ namespace VueApp
                );
             });
 
-            // 允许 IIS InProcess Hosting 的同步 IO
-            services.Configure<IISServerOptions>(options =>
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
-                options.AllowSynchronousIO = true;
-            });
+                // 允许 Kestrel InProcess Hosting 的同步 IO
+                services.Configure<KestrelServerOptions>(options =>
+                {
+                    options.AllowSynchronousIO = true;
+                });
+            } else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                // 允许 IIS InProcess Hosting 的同步 IO
+                services.Configure<IISServerOptions>(options =>
+                {
+                    options.AllowSynchronousIO = true;
+                });
+            }
 
             services.AddControllersWithViews()
             .AddNewtonsoftJson(options => { options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss"; });
 
             // In production, the React files will be served from this directory
-            services.AddSpaStaticFiles(configuration =>
+            // services.AddSpaStaticFiles(configuration =>
+            // {
+            //     configuration.RootPath = "ClientApp/dist";
+            // });
+
+            services.AddSpaStaticFiles(cfg =>
             {
-                configuration.RootPath = "ClientApp/dist";
+                cfg.RootPath = "wwwroot";
             });
         }
 
